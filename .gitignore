@@ -55,3 +55,4 @@ render.experimental.xml
 
 ### Mac OS ###
 .DS_Store
+/.idea/
