@@ -5,7 +5,8 @@ class TransactionManager(
     private val storage: TransactionStorage
 ) {
     fun add(transaction: Transaction) {
-        TODO("Not yet implemented")
+        if(TransactionsValidator.isTransactionValid(transaction))
+        storage.save(transaction)
     }
 
     fun edit(transaction: Transaction) {
