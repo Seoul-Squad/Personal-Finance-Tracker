@@ -5,3 +5,7 @@ data class MonthlySummary(
     val income: Double,
     val expense: Double,
 )
+
+def fun main() {
+//    val monthInfo=
+}

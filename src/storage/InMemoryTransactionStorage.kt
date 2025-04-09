@@ -19,6 +19,6 @@ class InMemoryTransactionStorage : TransactionStorage {
     }
 
     override fun load(): List<Transaction> {
-        TODO("Not yet implemented")
+        return transactions.toList()
     }
 }
