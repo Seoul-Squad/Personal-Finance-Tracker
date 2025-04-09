@@ -20,7 +20,7 @@ class TransactionManager(
     }
 
     fun getAll(): List<Transaction> {
-        return storage.load()
+        TODO("Not yet implemented")
     }
 
     fun getMonthlySummary() : List<MonthlySummary> {

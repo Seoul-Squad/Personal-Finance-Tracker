@@ -1,8 +1,6 @@
 import model.MonthlySummary
 import model.Transaction
-import model.TransactionType
 import storage.InMemoryTransactionStorage
-import java.time.LocalDate
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -17,35 +15,6 @@ fun main() {
         // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
         println("i = $i")
     }
-}
-
-fun allTransactions() {
-    val transactionManager = TransactionManager(InMemoryTransactionStorage())
-
-    val allTransactions = transactionManager.getAll()
-
-    printAllTransaction(allTransactions)
-}
-
-fun printAllTransaction(transactions: List<Transaction>) {
-    println("\u001b[1m\u001b[4mAll transactions:\u001B[0m \n") // Bold() + Underlined()
-
-    println("\u001B[1m+------+------------------+---------------------+-----------+-------------------------+")
-    println("| ID   | Amount           | Category            | Type      |   Date(dd/mm/yyyy)      |")
-    println("+------+------------------+---------------------+-----------+-------------------------+")
-
-    transactions.forEach { transaction ->
-        val dateString = "${transaction.date.dayOfMonth}/${transaction.date.monthValue}/${transaction.date.year}"
-        val amount = "${transaction.amount} $"
-
-        println(
-            "| ${transaction.id.padEnd(4)} | ${amount.padEnd(16)} | ${transaction.category.padEnd(19)} | ${
-                transaction.type.toString().padEnd(9)
-            } |  ${dateString.padEnd(22)} |"
-        )
-    }
-
-    println("+------+------------------+---------------------+-----------+-------------------------+\u001b[0m")
 }
 
 fun monthlySummaries() {
