@@ -1,5 +1,6 @@
 import model.Transaction
 import storage.TransactionStorage
+import java.time.LocalDate
 
 class TransactionManager(
     private val storage: TransactionStorage
@@ -8,8 +9,17 @@ class TransactionManager(
         TODO("Not yet implemented")
     }
 
-    fun edit(transaction: Transaction) {
-        TODO("Not yet implemented")
+    fun edit(updatedTransaction: Transaction): Boolean {
+        val originalTransaction = storage.getByID(updatedTransaction.id)
+
+        if (originalTransaction == null) return false
+        if (updatedTransaction.amount < 0) return false
+        if (updatedTransaction.category.isBlank()) return false
+        if (updatedTransaction.date.isAfter(LocalDate.now())) return false
+
+        storage.edit(updatedTransaction)
+        return true
+        //
     }
 
     fun delete(transactionId: String) {
