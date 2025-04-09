@@ -27,7 +27,7 @@ class TransactionManager(
         val transactions = getAll()
 
         val grouped = transactions.groupBy {
-            it.date.format(DateTimeFormatter.ofPattern("MM-yyyy"))
+            it.date.format(DateTimeFormatter.ofPattern("MMMM yyyy"))
         } // result is map<String,List<Transaction>>
 
         val summaries = grouped.map { (monthYear, transactions) ->
