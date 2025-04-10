@@ -12,8 +12,8 @@ class TransactionManager(
         TODO("Not yet implemented")
     }
 
-    fun delete(transactionId: String) {
-        TODO("Not yet implemented")
+    fun delete(transactionId: String) : Boolean{
+        return storage.delete(transactionId)
     }
 
     fun getAll(): List<Transaction> {
