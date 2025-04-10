@@ -2,14 +2,13 @@ import kotlinx.serialization.json.Json
 import model.Transaction
 import storage.TransactionStorage
 import java.io.File
-import java.time.LocalDate
 
 object InFileTransactionStorage : TransactionStorage {
     private val file = File("transactions.txt")
     private var transactions = mutableListOf<Transaction>()
     private val json = Json {
-        prettyPrint = true // Optional: Makes JSON readable
-        encodeDefaults = true // Ensures default values are serialized
+        prettyPrint = true
+        encodeDefaults = true
     }
 
     init {

@@ -1,4 +1,4 @@
-package storage.util
+package main.java.storage.util
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -8,7 +8,7 @@ import kotlinx.serialization.encoding.Encoder
 import java.time.LocalDate
 
 
-object LocalDateSerializer : KSerializer<LocalDate> {
+class LocalDateSerializer : KSerializer<LocalDate> {
     override val descriptor = PrimitiveSerialDescriptor("LocalDate", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: LocalDate) {

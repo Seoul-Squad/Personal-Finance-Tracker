@@ -1,10 +1,8 @@
 package model
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import storage.util.LocalDateSerializer
+import main.java.storage.util.LocalDateSerializer
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Serializable
 data class Transaction(
