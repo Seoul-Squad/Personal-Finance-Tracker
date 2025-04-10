@@ -14,11 +14,17 @@ class InMemoryTransactionStorage : TransactionStorage {
         TODO("Not yet implemented")
     }
 
-    override fun delete(transactionId: String) {
-        TODO("Not yet implemented")
+    override fun delete(transactionId: String): Boolean {
+        val transactionIndex = transactions.indexOfFirst { it.id == transactionId }
+        return if(transactionIndex != -1){
+            transactions.removeAt(transactionIndex)
+            true
+        } else {
+            false
+        }
     }
 
     override fun load(): List<Transaction> {
-        TODO("Not yet implemented")
+        return transactions
     }
 }
