@@ -1,4 +1,4 @@
-package main.java.storage.util
+package main.java.utils
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

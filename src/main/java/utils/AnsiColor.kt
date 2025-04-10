@@ -1,4 +1,4 @@
-package utils
+package main.java.utils
 
 object AnsiColor {
     const val RESET = "\u001B[0m"
