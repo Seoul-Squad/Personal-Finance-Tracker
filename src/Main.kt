@@ -41,7 +41,7 @@ fun startDeleteItemFlow(
     transactionManager: TransactionManager
 ) {
     val transactions = transactionManager.getAll()
-    printTransactions(transactions)
+    printAllTransactions(transactions)
 
     print("The id of the transaction to be deleted: ")
     val transactionId = readln().trim()
@@ -50,11 +50,5 @@ fun startDeleteItemFlow(
         println("Transaction deleted successfully!")
     } else {
         println("No transaction found with matching id.")
-    }
-}
-
-private fun printTransactions(transactions: List<Transaction>) {
-    transactions.forEachIndexed { index, transaction ->
-        println("$index- $transaction")
     }
 }
