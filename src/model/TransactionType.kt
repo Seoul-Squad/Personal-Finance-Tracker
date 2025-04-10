@@ -3,5 +3,6 @@ package model
 
 enum class TransactionType {
     INCOME,
-    EXPENSE
+    EXPENSE,
+    INVALID
 }
