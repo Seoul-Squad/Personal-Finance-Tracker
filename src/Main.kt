@@ -56,3 +56,20 @@ fun isValidTransactionDate(date: String): Boolean {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     return date.format(formatter).matches(Regex("\\d{4}-\\d{2}-\\d{2}"))
 }
+
+
+fun startDeleteItemFlow(
+    transactionManager: TransactionManager
+) {
+    val transactions = transactionManager.getAll()
+    printAllTransactions(transactions)
+
+    print("The id of the transaction to be deleted: ")
+    val transactionId = readln().trim()
+
+    if(transactionManager.delete(transactionId)) {
+        println("Transaction deleted successfully!")
+    } else {
+        println("No transaction found with matching id.")
+    }
+}
