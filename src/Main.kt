@@ -5,6 +5,10 @@ import java.util.UUID
 import java.time.LocalDate
 
 
+import java.time.format.DateTimeFormatter
+
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main() {
     val storage: InMemoryTransactionStorage = InMemoryTransactionStorage()
     val manager: TransactionManager = TransactionManager(storage)
@@ -58,29 +62,15 @@ fun createTransactionInput(): Transaction {
 
     var type: TransactionType = TransactionType.INCOME
 
-    when (readln().trim()) {
-        "1" -> type = TransactionType.INCOME
-        "2" -> type = TransactionType.EXPENSE
-        else -> println("ERROR INVALID TRANSACTION TYPE")
+    for (i in 1..5) {
+        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
+        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
+        println("i = $i")
     }
-
-
-    print("Enter the date (yyyy-MM-dd): ")
-    val date = LocalDate.parse(readln().trim())
-
-    return Transaction(
-        id = UUID.randomUUID().toString(),
-        amount = amount,
-        category = category,
-        type = type,
-        date = date
-    )
-
 }
 
+fun isValidTransactionDate(date: String): Boolean {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    return date.format(formatter).matches(Regex("\\d{4}-\\d{2}-\\d{2}"))
 
-
-
-
-
-
+}
