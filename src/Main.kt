@@ -1,3 +1,4 @@
+import model.Transaction
 import java.time.format.DateTimeFormatter
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -26,14 +27,20 @@ fun startDeleteItemFlow(
     transactionManager: TransactionManager
 ) {
     val transactions = transactionManager.getAll()
-    transactions.forEachIndexed { index, transaction ->
-        println("$index- $transaction")
-    }
-    print("The id of the transaction to be delete: ")
+    printTransactions(transactions)
+
+    print("The id of the transaction to be deleted: ")
     val transactionId = readln().trim()
+
     if(transactionManager.delete(transactionId)) {
         println("Transaction deleted successfully!")
     } else {
         println("No transaction found with matching id.")
+    }
+}
+
+private fun printTransactions(transactions: List<Transaction>) {
+    transactions.forEachIndexed { index, transaction ->
+        println("$index- $transaction")
     }
 }
