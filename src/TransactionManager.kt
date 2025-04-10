@@ -26,7 +26,7 @@ class TransactionManager(
         val transactions = getAll()
 
         val grouped = transactions.groupBy {
-            it.date
+            it.date.withDayOfMonth(1) // Instead of group them by formatted string date
         } // result is map<LocalDate, List<Transaction>>
 
         val summaries = grouped.map { (monthYear, transactions) ->
