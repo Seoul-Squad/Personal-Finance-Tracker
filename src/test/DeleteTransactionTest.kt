@@ -21,8 +21,9 @@ fun main(){
             //do nothing
         }
 
-        override fun edit(transaction: Transaction) {
+        override fun edit(transaction: Transaction): Boolean {
             //do nothing
+            return false
         }
 
         override fun delete(transactionId: String): Boolean {
