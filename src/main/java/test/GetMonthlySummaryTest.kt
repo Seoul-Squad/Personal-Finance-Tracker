@@ -53,7 +53,8 @@ fun main() {
         override fun edit(transaction: Transaction) {
         }
 
-        override fun delete(transactionId: String) {
+        override fun delete(transactionId: String)  : Boolean{
+            return true
         }
 
         override fun load(): List<Transaction> {
@@ -73,11 +74,11 @@ fun main() {
     )
 }
 
-fun checkEquals(name: String, result: Int, correctResult: Int) {
-    if (result == correctResult) {
-        println("Passed - $name")
-    } else {
-        println("\u001B[31mFailed - $name\u001B[0m")
-    }
-}
+//fun checkEquals(name: String, result: Int, correctResult: Int) {
+//    if (result == correctResult) {
+//        println("Passed - $name")
+//    } else {
+//        println("\u001B[31mFailed - $name\u001B[0m")
+//    }
+//}
 

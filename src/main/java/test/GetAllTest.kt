@@ -39,7 +39,8 @@ fun main() {
         override fun edit(transaction: Transaction) {
         }
 
-        override fun delete(transactionId: String) {
+        override fun delete(transactionId: String) : Boolean {
+        return false
         }
 
         override fun load(): List<Transaction> {
