@@ -1,3 +1,5 @@
+import java.time.format.DateTimeFormatter
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main() {
@@ -11,4 +13,10 @@ fun main() {
         // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
         println("i = $i")
     }
+}
+
+fun isValidTransactionDate(date: String): Boolean {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    return date.format(formatter).matches(Regex("\\d{4}-\\d{2}-\\d{2}"))
+
 }
