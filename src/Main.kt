@@ -1,40 +1,23 @@
 import model.Transaction
 import model.TransactionType
 import storage.InMemoryTransactionStorage
+import utils.AnsiColor
 import java.util.UUID
 import java.time.LocalDate
-
-
 import java.time.format.DateTimeFormatter
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-fun main() {
-    val storage: InMemoryTransactionStorage = InMemoryTransactionStorage()
-    val manager: TransactionManager = TransactionManager(storage)
 
-    println("========================================")
-    println("Welcome to Your Personal Finance Tracker ")
-    println("========================================")
+fun main() {
+    val storage = InMemoryTransactionStorage()
+    val manager = TransactionManager(storage)
+
+    printWelcomeMessage()
 
     while (true) {
-        // Menu options
-        println("Please choose an option:")
-        println("1. Add Transaction")
-        println("0. Exit")
-// REPLACE NUMBER WITH ENUM CLASS
+        showMenuOptions()
         when (readln().trim()) {
             "1" -> {
-                val transaction = createTransactionInput() ?: continue
-                manager.add(transaction)
-
-                println("Do you want to do other operation")
-                println("1- YES")
-                println("2- NO")
-                when (readln().trim()){
-                    "1" -> continue
-                    "2" ->  return
-                }
+                if (addTransaction(manager)) return
             }
 
             "0" -> {
@@ -42,16 +25,42 @@ fun main() {
                 return
             }
 
-
+            else -> println("${AnsiColor.RED}Invalid option. Please enter 1 or 0.${AnsiColor.RESET}")
         }
     }
-
 }
 
+private fun addTransaction(manager: TransactionManager): Boolean {
+    val transaction = createTransactionInput()
+    val errors = manager.addTransaction(transaction)
+
+    if (errors.isNotEmpty()) {
+        println("${AnsiColor.RED}Transaction is not valid:${AnsiColor.RESET}")
+        errors.forEach { println("- $it") }
+    } else {
+        println("${AnsiColor.GREEN}Transaction added successfully!${AnsiColor.RESET}")
+    }
+
+    if (!askToContinue()) return true
+    return false
+}
+
+fun askToContinue(): Boolean {
+    while (true) {
+        println("\nDo you want to do another operation?")
+        println("1. YES")
+        println("2. NO")
+        when (readln().trim()) {
+            "1" -> return true
+            "2" -> return false
+            else -> println("${AnsiColor.RED}Invalid option. Please enter 1 or 2.${AnsiColor.RESET}")
+        }
+    }
+}
 
 fun createTransactionInput(): Transaction {
-    print("Enter  the amount: ")
-    val amount = readln().toDouble()
+    print("Enter the amount: ")
+    val amount = readln().toDoubleOrNull()
 
     print("Enter the category (e.g., Groceries, Utilities, etc.): ")
     val category = readln().trim()
@@ -59,18 +68,51 @@ fun createTransactionInput(): Transaction {
     println("Select transaction type:")
     println("1. INCOME")
     println("2. EXPENSE")
-
-    var type: TransactionType = TransactionType.INCOME
-
-    for (i in 1..5) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        println("i = $i")
+    val type = when (readln().trim()) {
+        "1" -> TransactionType.INCOME
+        "2" -> TransactionType.EXPENSE
+        else -> TransactionType.INVALID
     }
+
+    val localDate = readFormattedDate("Enter the date (yyyy-MM-dd): ")
+
+    return Transaction(
+        id = UUID.randomUUID().toString(),
+        amount = amount,
+        category = category,
+        type = type,
+        date = localDate
+    )
 }
 
 fun isValidTransactionDate(date: String): Boolean {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    return date.format(formatter).matches(Regex("\\d{4}-\\d{2}-\\d{2}"))
+    return date.matches(Regex("\\d{4}-\\d{2}-\\d{2}"))
+}
 
+fun readFormattedDate(prompt: String): LocalDate {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    while (true) {
+        print(prompt)
+        val input = readln().trim()
+        if (isValidTransactionDate(input)) {
+            try {
+                return LocalDate.parse(input, formatter)
+            } catch (e: Exception) {
+                // Continue on parsing error
+            }
+        }
+        println("${AnsiColor.RED}Invalid date format. Please use yyyy-MM-dd${AnsiColor.RESET}")
+    }
+}
+
+fun printWelcomeMessage() {
+    println("${AnsiColor.CYAN}========================================")
+    println("Welcome to Your Personal Finance Tracker")
+    println("========================================${AnsiColor.RESET}")
+}
+
+fun showMenuOptions() {
+    println("\nPlease choose an option:")
+    println("1. Add Transaction")
+    println("0. Exit")
 }
