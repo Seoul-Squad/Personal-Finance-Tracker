@@ -1,15 +1,19 @@
+package main.java
+
+import InFileTransactionStorage
+import TransactionManager
 import model.Transaction
 import model.TransactionType
-import storage.InMemoryTransactionStorage
-import utils.AnsiColor
+import main.java.utils.AnsiColor
 import java.util.UUID
 import java.time.LocalDate
 import model.MonthlySummary
+import storage.TransactionStorage
 import java.time.format.DateTimeFormatter
 
 
 fun main() {
-    val storage = InMemoryTransactionStorage()
+    val storage: TransactionStorage = InFileTransactionStorage
     val manager = TransactionManager(storage)
 
     printWelcomeMessage()
@@ -17,9 +21,17 @@ fun main() {
     while (true) {
         showMenuOptions()
         when (readln().trim()) {
-            "1" -> { addTransaction(manager) }
+            "1" -> {
+                addTransaction(manager)
+            }
 
-            "2" -> { getAllTransactions(manager) }
+            "2" -> {
+                getAllTransactions(manager)
+            }
+
+            "4" -> {
+                startDeleteItemFlow(manager)
+            }
 
             "0" -> {
                 println("Exiting... Goodbye!")
@@ -156,6 +168,7 @@ fun showMenuOptions() {
     println("\nPlease choose an option:")
     println("1. Add Transaction")
     println("2. View All Transactions")
+    println("4. Delete Transaction")
     println("0. Exit")
 }
 
@@ -178,7 +191,7 @@ fun createTransactionInput(): Transaction {
     val localDate = readFormattedDate("Enter the date (yyyy-MM-dd): ")
 
     return Transaction(
-        id = UUID.randomUUID().toString(),
+        id = UUID.randomUUID().toString().take(6),
         amount = amount,
         category = category,
         type = type,
