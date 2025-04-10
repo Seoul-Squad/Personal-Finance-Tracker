@@ -7,7 +7,8 @@ class InMemoryTransactionStorage : TransactionStorage {
     private val transactions: MutableList<Transaction> = mutableListOf()
 
     override fun save(transaction: Transaction) {
-        TODO("Not yet implemented")
+        transactions.add(transaction)
+        //println(transactions)
     }
 
     override fun edit(transaction: Transaction): Boolean {

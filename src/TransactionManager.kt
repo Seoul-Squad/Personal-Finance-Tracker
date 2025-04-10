@@ -7,8 +7,12 @@ import java.time.format.DateTimeFormatter
 class TransactionManager(
     private val storage: TransactionStorage
 ) {
-    fun add(transaction: Transaction) {
-        TODO("Not yet implemented")
+    fun addTransaction(transaction: Transaction): List<String> {
+        val errors = transaction.validateTransaction()
+        if (errors.isEmpty()) {
+            storage.save(transaction)
+        }
+        return errors
     }
 
     fun edit(transaction: Transaction) {
