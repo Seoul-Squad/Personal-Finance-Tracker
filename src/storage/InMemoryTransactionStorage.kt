@@ -10,7 +10,7 @@ class InMemoryTransactionStorage : TransactionStorage {
         TODO("Not yet implemented")
     }
 
-    override fun edit(transaction: Transaction) {
+    override fun edit(transaction: Transaction): Boolean {
         TODO("Not yet implemented")
     }
 

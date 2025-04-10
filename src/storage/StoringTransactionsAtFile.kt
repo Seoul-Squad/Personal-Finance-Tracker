@@ -22,15 +22,16 @@ object StoringTransactionsAtFile :TransactionStorage{
 
     }
 
-    override fun edit(transaction: Transaction) {
-        transactions.removeIf { it.id == transaction.id }
+    override fun edit(transaction: Transaction): Boolean {
+        val transactionExists = transactions.removeIf { it.id == transaction.id }
         transactions.add(transaction)
         saveToFile()
+        return transactionExists
     }
 
-    override fun delete(transactionId: String) {
+    override fun delete(transactionId: String): Boolean {
 
-        // todo after delete transaction update file 
+        TODO("after delete transaction update file")
     }
 
     override fun load(): List<Transaction> {
