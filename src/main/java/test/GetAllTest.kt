@@ -36,11 +36,12 @@ fun main() {
         override fun save(transaction: Transaction) {
         }
 
-        override fun edit(transaction: Transaction) {
+        override fun edit(transaction: Transaction): Boolean {
+            return false
         }
 
-        override fun delete(transactionId: String) : Boolean {
-        return false
+        override fun delete(transactionId: String): Boolean {
+            return false
         }
 
         override fun load(): List<Transaction> {
@@ -57,7 +58,7 @@ fun main() {
     )
 }
 
-fun checkEquals(
+private fun checkEquals(
     name: String,
     result: Int,
     correctResult: Int,
