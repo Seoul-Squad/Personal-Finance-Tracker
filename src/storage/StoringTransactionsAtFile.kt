@@ -1,6 +1,7 @@
 package storage
 
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import model.Transaction
 import storage.util.LocalDateAdapter
 import java.io.File
@@ -9,7 +10,7 @@ import java.time.LocalDate
 object StoringTransactionsAtFile :TransactionStorage{
 
     private val file: File = File("transactions.txt")
-    private val transactions = mutableListOf<Transaction>()
+    private var transactions = mutableListOf<Transaction>()
     private val gson = GsonBuilder()
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .create()
@@ -29,13 +30,27 @@ object StoringTransactionsAtFile :TransactionStorage{
     }
 
     override fun delete(transactionId: String) {
+        transactions.removeIf { it.id == transactionId }
+        saveToFile()
 
-        // todo after delete transaction update file 
     }
 
     override fun load(): List<Transaction> {
+        return readTransactionsFromFile().toList()
+    }
 
-        return emptyList() //todo get data from file then convert it to list of translations
+    private fun readTransactionsFromFile(): MutableList<Transaction> {
+        transactions = if (file.exists()) {
+            val jsonString = file.readText()
+            val type = object : TypeToken<List<Transaction>>() {}.type
+            gson.fromJson(jsonString, type)
+
+        } else {
+            mutableListOf()
+
+        }
+        return transactions
+
     }
     private fun saveToFile() {
         if (!file.exists()) file.createNewFile()
