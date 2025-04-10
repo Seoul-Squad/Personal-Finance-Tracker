@@ -1,4 +1,5 @@
 import model.Transaction
+import java.time.format.DateTimeFormatter
 
 fun main() {
 }
@@ -26,6 +27,11 @@ fun printAllTransactions(transactions: List<Transaction>) {
             } |  ${dateString.padEnd(22)} |"
         )
     }
-
     println("+------+------------------+---------------------+-----------+-------------------------+\u001b[0m")
+}
+
+fun isValidTransactionDate(date: String): Boolean {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    return date.format(formatter).matches(Regex("\\d{4}-\\d{2}-\\d{2}"))
+
 }
