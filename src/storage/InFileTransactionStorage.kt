@@ -7,7 +7,7 @@ import storage.util.LocalDateAdapter
 import java.io.File
 import java.time.LocalDate
 
-object StoringTransactionsAtFile : TransactionStorage {
+object InFileTransactionStorage : TransactionStorage {
 
     private val file: File = File("transactions.txt")
     private var transactions = mutableListOf<Transaction>()
@@ -15,6 +15,9 @@ object StoringTransactionsAtFile : TransactionStorage {
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .create()
 
+    init {
+        transactions = readTransactionsFromFile()
+    }
 
     override fun save(transaction: Transaction) {
 
