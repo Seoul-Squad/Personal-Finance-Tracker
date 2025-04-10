@@ -11,29 +11,17 @@ data class Transaction(
     val date: LocalDate,
 ) {
     fun validateTransaction (): List<String> {
-        val errors = mutableListOf<TransactionValidationErrors>()
+        val errors = mutableListOf<String>()
         if (amount <= 0)
-            errors.add(TransactionValidationErrors.INVALID_AMOUNT)
+            errors.add(TransactionValidationErrors.INVALID_AMOUNT.message)
 
         if(category.isBlank())
-            errors.add(TransactionValidationErrors.INVALID_CATEGORY)
+            errors.add(TransactionValidationErrors.INVALID_CATEGORY.message)
 
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        if(!date.format(formatter).matches(Regex("\\d{4}-\\d{2}-\\d{2}")))
-            errors.add(TransactionValidationErrors.INVALID_DATE)
-
-        return getMessages(errors)
+        return errors
 
     }
 }
 
-private fun getMessages (listOfErrors: List<TransactionValidationErrors>): List<String> {
-    return listOfErrors.map { error ->
-        when (error) {
-            TransactionValidationErrors.INVALID_AMOUNT -> "Amount must be greater than 0"
-            TransactionValidationErrors.INVALID_CATEGORY -> "Category cannot be empty or blank"
-            TransactionValidationErrors.INVALID_DATE -> "Date must be in valid yyyy-MM-dd format"
-        }
-    }
-}
+
 
