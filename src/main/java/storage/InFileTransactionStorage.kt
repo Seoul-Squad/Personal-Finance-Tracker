@@ -22,10 +22,14 @@ object InFileTransactionStorage : TransactionStorage {
 
     }
 
-    override fun edit(transaction: Transaction) {
-        transactions.removeIf { it.id == transaction.id }
-        transactions.add(transaction)
-        saveToFile()
+    override fun edit(transaction: Transaction): Boolean {
+        return transactions.removeIf { it.id == transaction.id }
+            .also {
+                if (it) {
+                    transactions.add(transaction)
+                    saveToFile()
+                }
+            }
     }
 
     override fun delete(transactionId: String): Boolean {
