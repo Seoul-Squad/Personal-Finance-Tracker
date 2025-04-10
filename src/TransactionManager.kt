@@ -4,9 +4,12 @@ import storage.TransactionStorage
 class TransactionManager(
     private val storage: TransactionStorage
 ) {
-    fun add(transaction: Transaction) {
-        if(TransactionsValidator.isTransactionValid(transaction))
-        storage.save(transaction)
+    fun addTransaction(transaction: Transaction): List<String> {
+        val errors = transaction.validateTransaction()
+        if (errors.isEmpty()) {
+            storage.save(transaction)
+        }
+        return errors
     }
 
     fun edit(transaction: Transaction) {
