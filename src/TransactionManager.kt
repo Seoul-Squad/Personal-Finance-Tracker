@@ -9,14 +9,14 @@ class TransactionManager(
         TODO("Not yet implemented")
     }
 
-    fun edit(updatedTransaction: Transaction): Boolean {
+    fun edit(updatedTransaction: Transaction) {
+        val errorList = updatedTransaction.validateTransaction()
 
-        if (updatedTransaction.amount < 0) return false
-        if (updatedTransaction.category.isBlank()) return false
-        if (updatedTransaction.date.isAfter(LocalDate.now())) return false
-
-        storage.edit(updatedTransaction)
-        return true
+        if(!errorList.isNotEmpty()){
+            storage.edit(updatedTransaction)
+        }else{
+            println(errorList)
+        }
 
     }
 
