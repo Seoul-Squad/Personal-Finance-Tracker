@@ -7,7 +7,7 @@ import storage.util.LocalDateAdapter
 import java.io.File
 import java.time.LocalDate
 
-object StoringTransactionsAtFile :TransactionStorage{
+object StoringTransactionsAtFile : TransactionStorage {
 
     private val file: File = File("transactions.txt")
     private var transactions = mutableListOf<Transaction>()
@@ -18,7 +18,7 @@ object StoringTransactionsAtFile :TransactionStorage{
 
     override fun save(transaction: Transaction) {
 
-      transactions.add(transaction)
+        transactions.add(transaction)
         saveToFile()
 
     }
@@ -29,10 +29,14 @@ object StoringTransactionsAtFile :TransactionStorage{
         saveToFile()
     }
 
-    override fun delete(transactionId: String) {
-        transactions.removeIf { it.id == transactionId }
-        saveToFile()
-
+    override fun delete(transactionId: String): Boolean {
+        val removedTransaction = transactions.removeIf { it.id == transactionId }
+        return if (removedTransaction) {
+            saveToFile()
+            true
+        } else {
+            false
+        }
     }
 
     override fun load(): List<Transaction> {
@@ -52,10 +56,10 @@ object StoringTransactionsAtFile :TransactionStorage{
         return transactions
 
     }
+
     private fun saveToFile() {
         if (!file.exists()) file.createNewFile()
         val jasonTransactions = gson.toJson(transactions)
         file.writeText(jasonTransactions)
-
-        }
+    }
 }
