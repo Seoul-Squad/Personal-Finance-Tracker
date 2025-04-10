@@ -33,8 +33,5 @@ class InMemoryTransactionStorage : TransactionStorage {
         return transactions.find { it.id == id }
     }
 
-    // we use it for testing
-//    fun add(transaction: Transaction){
-//        transactions.add(transaction)
-//    }
+
 }

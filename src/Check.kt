@@ -8,10 +8,6 @@ fun main(){
     val storage: InMemoryTransactionStorage = InMemoryTransactionStorage()
     val transactionManager: TransactionManager = TransactionManager(storage)
 
-    // add function not implemented in storage for that we use it just for testing
-//    storage.add(Transaction("1", 100.0, TransactionType.INCOME, "Food", LocalDate.now()))
-//    storage.add(Transaction("2", 200.0, TransactionType.INCOME, "money", LocalDate.now()))
-//    storage.add(Transaction("3", 300.0, TransactionType.EXPENSE, "landry", LocalDate.now()))
 
     test(
         name = "Should update and return true, when transaction exists",
