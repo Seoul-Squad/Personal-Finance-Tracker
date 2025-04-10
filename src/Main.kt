@@ -1,6 +1,5 @@
 import model.MonthlySummary
 import storage.InMemoryTransactionStorage
-import java.time.format.DateTimeFormatter
 
 fun main() {
     val storage = InMemoryTransactionStorage()
