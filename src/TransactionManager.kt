@@ -33,11 +33,11 @@ class TransactionManager(
         val summaries = grouped.map { (monthYear, transactions) ->
             val totalIncome = transactions
                 .filter { it.type == TransactionType.INCOME }
-                .sumOf { it.amount }
+                .sumOf { it.amount?: 0.0 }
 
             val totalExpense = transactions
                 .filter { it.type == TransactionType.EXPENSE }
-                .sumOf { it.amount }
+                .sumOf { it.amount?: 0.0 }
 
             MonthlySummary(monthYear, totalIncome, totalExpense)
         }
