@@ -1,7 +1,7 @@
 package model
 
 import kotlinx.serialization.Serializable
-import main.java.storage.util.LocalDateSerializer
+import main.java.utils.LocalDateSerializer
 import java.time.LocalDate
 
 @Serializable
