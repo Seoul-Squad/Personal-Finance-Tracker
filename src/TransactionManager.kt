@@ -2,7 +2,6 @@ import model.MonthlySummary
 import model.Transaction
 import model.TransactionType
 import storage.TransactionStorage
-import java.time.format.DateTimeFormatter
 
 class TransactionManager(
     private val storage: TransactionStorage
@@ -23,12 +22,12 @@ class TransactionManager(
         TODO("Not yet implemented")
     }
 
-    fun getMonthlySummary() : List<MonthlySummary> {
+    fun getMonthlySummary(): List<MonthlySummary> {
         val transactions = getAll()
 
         val grouped = transactions.groupBy {
-            it.date.format(DateTimeFormatter.ofPattern("MMMM yyyy"))
-        } // result is map<String,List<Transaction>>
+            it.date
+        } // result is map<LocalDate, List<Transaction>>
 
         val summaries = grouped.map { (monthYear, transactions) ->
             val totalIncome = transactions
