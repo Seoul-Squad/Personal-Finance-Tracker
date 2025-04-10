@@ -1,5 +1,8 @@
+import model.MonthlySummary
 import model.Transaction
+import model.TransactionType
 import storage.TransactionStorage
+import java.time.format.DateTimeFormatter
 
 class TransactionManager(
     private val storage: TransactionStorage
@@ -16,18 +19,32 @@ class TransactionManager(
         TODO("Not yet implemented")
     }
 
-    fun delete(transactionId: String) {
-        TODO("Not yet implemented")
+    fun delete(transactionId: String) : Boolean{
+        return storage.delete(transactionId)
     }
 
     fun getAll(): List<Transaction> {
-        TODO("Not yet implemented")
+        return storage.load()
     }
 
-    fun getMonthlySummary() {
-        //note: this function's parameters and return type were not set since it wasn't agreed upon in the meeting
-        //you can set it based on your implementation
-        TODO("Not yet implemented")
-    }
+    fun getMonthlySummary(): List<MonthlySummary> {
+        val transactions = getAll()
 
+        val grouped = transactions.groupBy {
+            it.date.format(DateTimeFormatter.ofPattern("MM-yyyy"))
+        } // result is map<LocalDate, List<Transaction>>
+
+        val summaries = grouped.map { (monthYear, transactions) ->
+            val totalIncome = transactions
+                .filter { it.type == TransactionType.INCOME }
+                .sumOf { it.amount?: 0.0 }
+
+            val totalExpense = transactions
+                .filter { it.type == TransactionType.EXPENSE }
+                .sumOf { it.amount?: 0.0 }
+
+            MonthlySummary(monthYear, totalIncome, totalExpense)
+        }
+        return summaries.sortedBy { it.monthYear }
+    }
 }
