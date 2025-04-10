@@ -1,6 +1,7 @@
 package storage
 
 import model.Transaction
+import model.TransactionValidationErrors
 
 class InMemoryTransactionStorage : TransactionStorage {
 
@@ -10,13 +11,12 @@ class InMemoryTransactionStorage : TransactionStorage {
         TODO("Not yet implemented")
     }
 
-    override fun edit(updatedTransaction: Transaction): Boolean {
+    override fun edit(updatedTransaction: Transaction) {
         val index = transactions.indexOfFirst { it.id == updatedTransaction.id }
         return if (index != -1) {
             transactions[index] = updatedTransaction
-            true
         } else {
-            false
+            println(TransactionValidationErrors.INVALID_ID.message)
         }
     }
 
@@ -26,11 +26,6 @@ class InMemoryTransactionStorage : TransactionStorage {
 
     override fun load(): List<Transaction> {
         TODO("Not yet implemented")
-    }
-
-    override fun getByID(id: String): Transaction? {
-        //if ID contained, return transaction
-        return transactions.find { it.id == id }
     }
 
 
