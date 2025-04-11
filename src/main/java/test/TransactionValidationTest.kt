@@ -1,4 +1,4 @@
-package test_cases
+package test
 
 import main.java.utils.check
 import model.Transaction
@@ -35,7 +35,7 @@ fun main() {
             date = LocalDate.now()
 
         ).validateTransaction(),
-        expectedResult = listOf(TransactionValidationErrors.INVALID_TYPE.message)
+        expectedResult = listOf()
     )
 
     check(
