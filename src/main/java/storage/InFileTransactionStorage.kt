@@ -3,17 +3,15 @@ import model.Transaction
 import storage.TransactionStorage
 import java.io.File
 
-object InFileTransactionStorage : TransactionStorage {
+class InFileTransactionStorage : TransactionStorage {
     private val file = File("transactions.txt")
-    private var transactions = mutableListOf<Transaction>()
+    private val transactions = mutableListOf<Transaction>()
     private val json = Json {
         prettyPrint = true
         encodeDefaults = true
     }
 
-    init {
-        transactions = readTransactionsFromFile()
-    }
+    init { transactions.addAll(readTransactionsFromFile()) }
 
     override fun save(transaction: Transaction) {
 
@@ -22,11 +20,11 @@ object InFileTransactionStorage : TransactionStorage {
 
     }
 
-    override fun edit(transaction: Transaction) {
-        transactions.removeIf { it.id == transaction.id }
+    override fun edit(updatedTransaction: Transaction) {
+        transactions.removeIf { it.id == updatedTransaction.id }
             .also {
                 if (it) {
-                    transactions.add(transaction)
+                    transactions.add(updatedTransaction)
                     saveToFile()
                 }
             }
@@ -37,15 +35,15 @@ object InFileTransactionStorage : TransactionStorage {
     }
 
     override fun load(): List<Transaction> {
-        return readTransactionsFromFile().toList()
+        return transactions
     }
 
-    private fun readTransactionsFromFile(): MutableList<Transaction> {
+    private fun readTransactionsFromFile(): List<Transaction> {
         return if (file.exists()) {
             val jsonString = file.readText()
             json.decodeFromString<MutableList<Transaction>>(jsonString)
         } else {
-            mutableListOf()
+            emptyList()
         }
     }
 
