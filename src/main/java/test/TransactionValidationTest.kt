@@ -35,7 +35,7 @@ fun main() {
             date = LocalDate.now()
 
         ).validateTransaction(),
-        expectedResult = listOf()
+        expectedResult = listOf(TransactionValidationErrors.INVALID_TYPE.message)
     )
 
     check(
