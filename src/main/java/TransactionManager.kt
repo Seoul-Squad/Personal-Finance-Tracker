@@ -15,8 +15,13 @@ class TransactionManager(
         return errors
     }
 
-    fun edit(transaction: Transaction) {
-        TODO("Not yet implemented")
+    fun edit(updatedTransaction: Transaction): List<String> {
+        val errorList = updatedTransaction.validateTransaction()
+
+        if(!errorList.isNotEmpty()){
+            storage.edit(updatedTransaction)
+        }
+        return errorList
     }
 
     fun delete(transactionId: String) : Boolean{

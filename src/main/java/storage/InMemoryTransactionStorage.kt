@@ -1,6 +1,7 @@
 package storage
 
 import model.Transaction
+import model.TransactionValidationErrors
 
 class InMemoryTransactionStorage : TransactionStorage {
 
@@ -11,8 +12,13 @@ class InMemoryTransactionStorage : TransactionStorage {
         //println(transactions)
     }
 
-    override fun edit(transaction: Transaction): Boolean {
-        TODO("Not yet implemented")
+    override fun edit(updatedTransaction: Transaction) {
+        val index = transactions.indexOfFirst { it.id == updatedTransaction.id }
+        if (index != -1) {
+            transactions[index] = updatedTransaction
+        } else {
+            println(TransactionValidationErrors.INVALID_ID.message)
+        }
     }
 
     override fun delete(transactionId: String): Boolean {
