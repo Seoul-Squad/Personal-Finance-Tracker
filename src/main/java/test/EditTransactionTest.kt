@@ -1,6 +1,7 @@
 package main.java.test
 
-import TransactionsValidator.isTransactionValid
+
+import main.java.test.TransactionsValidator.isTransactionValid
 import model.Transaction
 import model.TransactionType
 import java.time.LocalDate

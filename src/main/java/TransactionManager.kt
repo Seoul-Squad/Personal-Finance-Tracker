@@ -15,14 +15,13 @@ class TransactionManager(
         return errors
     }
 
-    fun edit(updatedTransaction: Transaction) {
+    fun edit(updatedTransaction: Transaction): List<String> {
         val errorList = updatedTransaction.validateTransaction()
 
         if(!errorList.isNotEmpty()){
             storage.edit(updatedTransaction)
-        }else{
-            println(errorList)
         }
+        return errorList
     }
 
     fun delete(transactionId: String) : Boolean{
