@@ -3,6 +3,6 @@ package model
 
 data class MonthlySummary(
     val monthYear: String,
-    val income: Double,
-    val expense: Double,
+    val totalIncome: Double,
+    val totalExpense: Double,
 )
