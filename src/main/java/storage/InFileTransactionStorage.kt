@@ -15,14 +15,14 @@ object InFileTransactionStorage : TransactionStorage {
         transactions = readTransactionsFromFile()
     }
 
-    override fun save(transaction: Transaction) {
+    override fun saveTransaction(transaction: Transaction) {
 
         transactions.add(transaction)
         saveToFile()
 
     }
 
-    override fun edit(transaction: Transaction) {
+    override fun editTransaction(transaction: Transaction) {
         transactions.removeIf { it.id == transaction.id }
             .also {
                 if (it) {
@@ -32,11 +32,11 @@ object InFileTransactionStorage : TransactionStorage {
             }
     }
 
-    override fun delete(transactionId: String): Boolean {
+    override fun deleteTransaction(transactionId: String): Boolean {
         return transactions.removeIf { it.id == transactionId }.also { if (it) saveToFile() }
     }
 
-    override fun load(): List<Transaction> {
+    override fun loadTransactions(): List<Transaction> {
         return readTransactionsFromFile().toList()
     }
 

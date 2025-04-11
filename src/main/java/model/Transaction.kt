@@ -8,7 +8,7 @@ import java.time.LocalDate
 data class Transaction(
     val id: String,
     val amount: Double?,
-    val type: TransactionType,
+    val type: TransactionType?,
     val category: String,
     @Serializable(with = LocalDateSerializer::class)
     val date: LocalDate = LocalDate.now()) {
@@ -20,7 +20,7 @@ data class Transaction(
 
         else if(amount <= 0) errors.add(TransactionValidationErrors.INVALID_AMOUNT_RANGE.message)
 
-        if(type == TransactionType.INVALID) errors.add(TransactionValidationErrors.INVALID_TYPE.message)
+        if(type == null) errors.add(TransactionValidationErrors.INVALID_TYPE.message)
 
         if(category.isBlank())
             errors.add(TransactionValidationErrors.INVALID_CATEGORY.message)

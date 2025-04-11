@@ -1,0 +1,9 @@
+[
+    {
+        "id": "fca3b8",
+        "amount": 150.0,
+        "type": "EXPENSE",
+        "category": "Food",
+        "date": "2024-04-11"
+    }
+]
