@@ -7,12 +7,12 @@ class InMemoryTransactionStorage : TransactionStorage {
 
     private val transactions: MutableList<Transaction> = mutableListOf()
 
-    override fun save(transaction: Transaction) {
+    override fun saveTransaction(transaction: Transaction) {
         transactions.add(transaction)
         //println(transactions)
     }
 
-    override fun edit(updatedTransaction: Transaction) {
+    override fun editTransaction(updatedTransaction: Transaction) {
         val index = transactions.indexOfFirst { it.id == updatedTransaction.id }
         if (index != -1) {
             transactions[index] = updatedTransaction
@@ -21,7 +21,7 @@ class InMemoryTransactionStorage : TransactionStorage {
         }
     }
 
-    override fun delete(transactionId: String): Boolean {
+    override fun deleteTransaction(transactionId: String): Boolean {
         val transactionIndex = transactions.indexOfFirst { it.id == transactionId }
         return if(transactionIndex != -1){
             transactions.removeAt(transactionIndex)
@@ -31,7 +31,7 @@ class InMemoryTransactionStorage : TransactionStorage {
         }
     }
 
-    override fun load(): List<Transaction> {
+    override fun loadTransactions(): List<Transaction> {
         return transactions
     }
 }

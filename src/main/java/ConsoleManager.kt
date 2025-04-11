@@ -96,7 +96,7 @@ class ConsoleManager(
     }
 
     private fun getAllTransactions(transactionManager: TransactionManager) {
-        val allTransactions = transactionManager.getAll()
+        val allTransactions = transactionManager.getAllTransactions()
         printAllTransactions(allTransactions)
     }
 
@@ -136,20 +136,20 @@ class ConsoleManager(
     }
 
     private fun startDeleteItemFlow(transactionManager: TransactionManager) {
-        val transactions = transactionManager.getAll()
+        val transactions = transactionManager.getAllTransactions()
         printAllTransactions(transactions)
 
         print("The id of the transaction to be deleted: ")
         val transactionId = readln().trim()
-        if (transactionManager.delete(transactionId)) {
+        if (transactionManager.deleteTransaction(transactionId)) {
             println("Transaction deleted successfully!")
         } else {
             println("No transaction found with matching id.")
         }
     }
 
-    private fun startEditTransactionFlow(transactionManager: TransactionManager) {
-        val transactions = transactionManager.getAll()
+    private fun startEditTransactionFlow(manager: TransactionManager) {
+        val transactions = manager.getAllTransactions()
         printAllTransactions(transactions)
 
         print("Enter the ID of the transaction to edit: ")
@@ -168,7 +168,7 @@ class ConsoleManager(
         val updatedTransaction = updatedTransactionData.copy(id = transactionId)
 
         // Call the edit function from your TransactionManager (make sure it's implemented)
-        val errors = transactionManager.edit(updatedTransaction)
+        val errors = manager.editTransaction(updatedTransaction)
         if (errors.isNotEmpty()) {
             println("${AnsiColor.RED}Errors editing transaction:${AnsiColor.RESET}")
             errors.forEach { println("- $it") }
@@ -200,7 +200,7 @@ class ConsoleManager(
         val type = when (readln().trim()) {
             "1" -> TransactionType.INCOME
             "2" -> TransactionType.EXPENSE
-            else -> TransactionType.INVALID
+            else ->  null
         }
 
         val localDate = readFormattedDate("Enter the date (yyyy-MM-dd): ")
