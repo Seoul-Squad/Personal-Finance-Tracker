@@ -14,7 +14,7 @@ class InMemoryTransactionStorage : TransactionStorage {
 
     override fun edit(updatedTransaction: Transaction) {
         val index = transactions.indexOfFirst { it.id == updatedTransaction.id }
-        return if (index != -1) {
+        if (index != -1) {
             transactions[index] = updatedTransaction
         } else {
             println(TransactionValidationErrors.INVALID_ID.message)

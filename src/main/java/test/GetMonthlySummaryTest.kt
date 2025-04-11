@@ -50,8 +50,7 @@ fun main() {
         override fun save(transaction: Transaction) {
         }
 
-        override fun edit(transaction: Transaction): Boolean {
-            return false
+        override fun edit(transaction: Transaction) {
         }
 
         override fun delete(transactionId: String): Boolean {
