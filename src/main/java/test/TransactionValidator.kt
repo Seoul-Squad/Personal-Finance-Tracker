@@ -1,3 +1,5 @@
+package main.java.test
+
 import model.Transaction
 
 object TransactionsValidator {

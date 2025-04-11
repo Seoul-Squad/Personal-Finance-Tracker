@@ -1,15 +1,17 @@
 package model
 
+import kotlinx.serialization.Serializable
+import main.java.utils.LocalDateSerializer
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
+@Serializable
 data class Transaction(
     val id: String,
     val amount: Double?,
     val type: TransactionType,
     val category: String,
-    val date: LocalDate,
-) {
+    @Serializable(with = LocalDateSerializer::class)
+    val date: LocalDate = LocalDate.now()) {
     fun validateTransaction (): List<String> {
         val errors = mutableListOf<String>()
 
@@ -27,3 +29,6 @@ data class Transaction(
 
     }
 }
+
+
+

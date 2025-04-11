@@ -1,3 +1,5 @@
+package main.java.test
+
 import TransactionsValidator.isTransactionValid
 import model.Transaction
 import model.TransactionType
