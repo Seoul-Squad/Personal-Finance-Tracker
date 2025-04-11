@@ -1,10 +1,11 @@
 import kotlinx.serialization.json.Json
+import main.java.utils.FILE_NAME
 import model.Transaction
 import storage.TransactionStorage
 import java.io.File
 
 class InFileTransactionStorage : TransactionStorage {
-    private val file = File("transactions.txt")
+    private val file = File(FILE_NAME)
     private val transactions = mutableListOf<Transaction>()
     private val json = Json {
         prettyPrint = true
@@ -13,14 +14,14 @@ class InFileTransactionStorage : TransactionStorage {
 
     init { transactions.addAll(readTransactionsFromFile()) }
 
-    override fun save(transaction: Transaction) {
+    override fun saveTransaction(transaction: Transaction) {
 
         transactions.add(transaction)
         saveToFile()
 
     }
 
-    override fun edit(updatedTransaction: Transaction) {
+    override fun editTransaction(updatedTransaction: Transaction) {
         transactions.removeIf { it.id == updatedTransaction.id }
             .also {
                 if (it) {
@@ -30,11 +31,11 @@ class InFileTransactionStorage : TransactionStorage {
             }
     }
 
-    override fun delete(transactionId: String): Boolean {
+    override fun deleteTransaction(transactionId: String): Boolean {
         return transactions.removeIf { it.id == transactionId }.also { if (it) saveToFile() }
     }
 
-    override fun load(): List<Transaction> {
+    override fun loadTransactions(): List<Transaction> {
         return transactions
     }
 
