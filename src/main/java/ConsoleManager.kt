@@ -86,11 +86,11 @@ class ConsoleManager(
     private fun printMonthlySummaries(summaries: List<MonthlySummary>) {
         println("${AnsiColor.BOLD}${AnsiColor.UNDERLINED}mMonthly Summary:${AnsiColor.RESET}") // Bold + Underlined
         summaries.forEach { summary ->
-            val netBalance = summary.income - summary.expense
+            val netBalance = summary.totalIncome - summary.totalExpense
             val balanceColor = if (netBalance >= 0) AnsiColor.GREEN else AnsiColor.RED // Green or Red
             println("\n${AnsiColor.BOLD}${summary.monthYear}:${AnsiColor.RESET}") // Bold month name
-            println("  ${AnsiColor.BLUE}Total Income:${AnsiColor.RESET}m $${summary.income}")
-            println("  ${AnsiColor.BLUE}Total Expenses:${AnsiColor.RESET} $${summary.expense}")
+            println("  ${AnsiColor.BLUE}Total Income:${AnsiColor.RESET}m $${summary.totalIncome}")
+            println("  ${AnsiColor.BLUE}Total Expenses:${AnsiColor.RESET} $${summary.totalExpense}")
             println("  ${balanceColor}Net Balance:${AnsiColor.RESET} $${"%.2f".format(netBalance)}")
         }
     }
