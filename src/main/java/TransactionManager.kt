@@ -10,30 +10,30 @@ class TransactionManager(
     fun addTransaction(transaction: Transaction): List<String> {
         val errors = transaction.validateTransaction()
         if (errors.isEmpty()) {
-            storage.save(transaction)
+            storage.saveTransaction(transaction)
         }
         return errors
     }
 
-    fun edit(updatedTransaction: Transaction): List<String> {
+    fun editTransaction(updatedTransaction: Transaction): List<String> {
         val errorList = updatedTransaction.validateTransaction()
 
         if(!errorList.isNotEmpty()){
-            storage.edit(updatedTransaction)
+            storage.editTransaction(updatedTransaction)
         }
         return errorList
     }
 
-    fun delete(transactionId: String) : Boolean{
-        return storage.delete(transactionId)
+    fun deleteTransaction(transactionId: String) : Boolean{
+        return storage.deleteTransaction(transactionId)
     }
 
-    fun getAll(): List<Transaction> {
-        return storage.load()
+    fun getAllTransactions(): List<Transaction> {
+        return storage.loadTransactions()
     }
 
     fun getMonthlySummary(): List<MonthlySummary> {
-        val transactions = getAll()
+        val transactions = getAllTransactions()
 
         val grouped = transactions.groupBy {
             it.date.format(DateTimeFormatter.ofPattern("MM-yyyy"))
