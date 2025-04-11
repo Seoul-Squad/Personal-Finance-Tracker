@@ -84,14 +84,14 @@ class ConsoleManager(
     }
 
     private fun printMonthlySummaries(summaries: List<MonthlySummary>) {
-        println("\u001b[1m\u001b[4mMonthly Summary:\u001b[0m") // Bold + Underlined
+        println("${AnsiColor.BOLD}${AnsiColor.UNDERLINED}mMonthly Summary:${AnsiColor.RESET}") // Bold + Underlined
         summaries.forEach { summary ->
             val netBalance = summary.income - summary.expense
-            val balanceColor = if (netBalance >= 0) "\u001b[32m" else "\u001b[31m" // Green or Red
-            println("\n\u001b[1m${summary.monthYear}:\u001b[0m") // Bold month name
-            println("  \u001b[34mTotal Income:\u001b[0m $${summary.income}")
-            println("  \u001b[34mTotal Expenses:\u001b[0m $${summary.expense}")
-            println("  ${balanceColor}Net Balance:\u001b[0m $${"%.2f".format(netBalance)}")
+            val balanceColor = if (netBalance >= 0) AnsiColor.GREEN else AnsiColor.RED // Green or Red
+            println("\n${AnsiColor.BOLD}${summary.monthYear}:${AnsiColor.RESET}") // Bold month name
+            println("  ${AnsiColor.BLUE}Total Income:${AnsiColor.RESET}m $${summary.income}")
+            println("  ${AnsiColor.BLUE}Total Expenses:${AnsiColor.RESET} $${summary.expense}")
+            println("  ${balanceColor}Net Balance:${AnsiColor.RESET} $${"%.2f".format(netBalance)}")
         }
     }
 
@@ -102,20 +102,20 @@ class ConsoleManager(
 
     private fun printAllTransactions(transactions: List<Transaction>) {
         val maxCategoryLength = transactions.maxOf { it.category.length }
-        println("\u001b[1m\u001b[4mAll transactions:\u001B[0m \n") // Bold + Underlined
-        println("\u001B[1m+-------+------------------+${"".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+")
-        println("| ID    | Amount           | ${"Category".padEnd(maxOf(28, maxCategoryLength), ' ')} | Type      |   Date(dd/mm/yyyy)      |")
-        println("+-------+------------------+${"".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+")
+        println("${AnsiColor.BOLD}${AnsiColor.UNDERLINED}All transactions:${AnsiColor.RESET} \n") // Bold + Underlined
+        println("${AnsiColor.BOLD}+--------+-----------------+${"".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+")
+        println("| ID     | Amount          | ${"Category".padEnd(maxOf(28, maxCategoryLength), ' ')} | Type      |   Date(dd/mm/yyyy)      |")
+        println("+--------+-----------------+${"".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+")
         transactions.forEach { transaction ->
             val dateString = "${transaction.date.dayOfMonth}/${transaction.date.monthValue}/${transaction.date.year}"
             val amount = "${transaction.amount} $"
             println(
-                "| ${transaction.id.padEnd(4)} | ${amount.padEnd(15)} | ${transaction.category.padEnd(maxOf(28, maxCategoryLength), ' ')} | ${
+                "| ${transaction.id.padEnd(6)} | ${amount.padEnd(15)} | ${transaction.category.padEnd(maxOf(28, maxCategoryLength), ' ')} | ${
                     transaction.type.toString().padEnd(9)
                 } |  ${dateString.padEnd(22)} |"
             )
         }
-        println("+-------+------------------+${"-".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+\u001b[0m")
+        println("+--------+-----------------+${"-".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+${AnsiColor.RESET}")
     }
 
     private fun isValidTransactionDate(date: String): Boolean {
