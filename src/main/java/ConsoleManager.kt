@@ -1,13 +1,15 @@
 package main.java
 
 import TransactionManager
+import kotlinx.datetime.toLocalDate
 import main.java.utils.ConsoleColors
 import main.java.utils.ConsoleStyle
 import model.MonthlySummary
 import model.Transaction
 import model.TransactionType
-import java.time.LocalDate
+import kotlinx.datetime.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.util.*
 
 class ConsoleManager(
@@ -61,7 +63,10 @@ class ConsoleManager(
             println("2. NO")
             when (readln().trim()) {
                 "1" -> return true
-                "2" -> return false
+                "2" -> {
+                    println("Exiting... Goodbye!")
+                    return false
+                }
                 else -> println("${ConsoleColors.RED}Invalid option. Please enter 1 or 2.${ConsoleColors.RESET}")
             }
         }
@@ -105,10 +110,10 @@ class ConsoleManager(
         val maxCategoryLength = transactions.maxOf { it.category.length }
         println("${ConsoleStyle.BOLD}${ConsoleStyle.UNDERLINED}All transactions:${ConsoleColors.RESET} \n") // Bold + Underlined
         println("${ConsoleStyle.BOLD}+--------+-----------------+${"".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+")
-        println("| ID     | Amount          | ${"Category".padEnd(maxOf(28, maxCategoryLength), ' ')} | Type      |   Date(dd/mm/yyyy)      |")
+        println("| ID     | Amount          | ${"Category".padEnd(maxOf(28, maxCategoryLength), ' ')} | Type      |  Date(dd/mm/yyyy)       |")
         println("+--------+-----------------+${"".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+")
         transactions.forEach { transaction ->
-            val dateString = "${transaction.date.dayOfMonth}/${transaction.date.monthValue}/${transaction.date.year}"
+            val dateString = "${transaction.date.dayOfMonth}/${transaction.date.monthNumber.toString().padStart(2, '0')}/${transaction.date.year}"
             val amount = "${transaction.amount} $"
             println(
                 "| ${transaction.id.padEnd(6)} | ${amount.padEnd(15)} | ${transaction.category.padEnd(maxOf(28, maxCategoryLength), ' ')} | ${
@@ -125,12 +130,15 @@ class ConsoleManager(
     }
 
     private fun readFormattedDate(prompt: String): LocalDate {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         while (true) {
             print(prompt)
             val input = readln().trim()
-            if (isValidTransactionDate(input)) {
-                return LocalDate.parse(input, formatter)
+            try {
+                if (isValidTransactionDate(input)) {
+                    return input.toLocalDate()
+                }
+            } catch (e: Exception) {
+                // Catch parsing exceptions
             }
             println("ERROR INVALID DATE FORMAT")
         }
