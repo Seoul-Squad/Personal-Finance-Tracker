@@ -5,7 +5,7 @@ import model.Transaction
 import model.TransactionType
 import java.time.format.DateTimeFormatter
 
-class SummaryGenerator {
+class TransactionSummaryGenerator {
     fun generateMonthlySummaries(transactions: List<Transaction>): List<MonthlySummary> {
         val grouped = transactions.groupBy {
             it.date.format(DateTimeFormatter.ofPattern("MM-yyyy"))

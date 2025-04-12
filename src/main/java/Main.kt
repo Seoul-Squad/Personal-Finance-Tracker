@@ -6,8 +6,8 @@ import storage.TransactionStorage
 
 fun main() {
     val storage: TransactionStorage = InFileTransactionStorage()
-    val summaryGenerator: SummaryGenerator = SummaryGenerator()
-    val manager = TransactionManager(storage, summaryGenerator)
+    val transactionSummaryGenerator: TransactionSummaryGenerator = TransactionSummaryGenerator()
+    val manager = TransactionManager(storage, transactionSummaryGenerator)
     val consoleManager = ConsoleManager(manager)
     consoleManager.startApp()
 }
