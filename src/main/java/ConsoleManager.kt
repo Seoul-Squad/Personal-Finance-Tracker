@@ -1,7 +1,8 @@
 package main.java
 
 import TransactionManager
-import main.java.utils.AnsiColor
+import main.java.utils.ConsoleColors
+import main.java.utils.ConsoleStyle
 import model.MonthlySummary
 import model.Transaction
 import model.TransactionType
@@ -37,10 +38,10 @@ class ConsoleManager(
                     println("Exiting... Goodbye!")
                     return
                 }
-                else -> println("${AnsiColor.RED}Invalid option. Please enter one of the available options.${AnsiColor.RESET}")
+                else -> println("${ConsoleColors.RED}Invalid option. Please enter one of the available options.${ConsoleColors.RESET}")
             }
             if (askToContinue()) {
-                println("========================================${AnsiColor.RESET}")
+                println("========================================${ConsoleColors.RESET}")
                 continue
             } else {
                 return
@@ -48,9 +49,9 @@ class ConsoleManager(
         }
     }
     private fun printWelcomeMessage() {
-        println("${AnsiColor.CYAN}========================================")
+        println("${ConsoleColors.CYAN}========================================")
         println("Welcome to Your Personal Finance Tracker")
-        println("========================================${AnsiColor.RESET}")
+        println("========================================${ConsoleColors.RESET}")
     }
 
     private fun askToContinue(): Boolean {
@@ -61,7 +62,7 @@ class ConsoleManager(
             when (readln().trim()) {
                 "1" -> return true
                 "2" -> return false
-                else -> println("${AnsiColor.RED}Invalid option. Please enter 1 or 2.${AnsiColor.RESET}")
+                else -> println("${ConsoleColors.RED}Invalid option. Please enter 1 or 2.${ConsoleColors.RESET}")
             }
         }
     }
@@ -71,10 +72,10 @@ class ConsoleManager(
         val errors = manager.addTransaction(transaction)
 
         if (errors.isNotEmpty()) {
-            println("${AnsiColor.RED}Transaction is not valid:${AnsiColor.RESET}")
+            println("${ConsoleColors.RED}Transaction is not valid:${ConsoleColors.RESET}")
             errors.forEach { println("- $it") }
         } else {
-            println("${AnsiColor.GREEN}Transaction added successfully!${AnsiColor.RESET}")
+            println("${ConsoleColors.GREEN}Transaction added successfully!${ConsoleColors.RESET}")
         }
     }
 
@@ -84,14 +85,14 @@ class ConsoleManager(
     }
 
     private fun printMonthlySummaries(summaries: List<MonthlySummary>) {
-        println("${AnsiColor.BOLD}${AnsiColor.UNDERLINED}mMonthly Summary:${AnsiColor.RESET}") // Bold + Underlined
+        println("${ConsoleStyle.BOLD}${ConsoleStyle.UNDERLINED}mMonthly Summary:${ConsoleColors.RESET}") // Bold + Underlined
         summaries.forEach { summary ->
             val netBalance = summary.totalIncome - summary.totalExpense
-            val balanceColor = if (netBalance >= 0) AnsiColor.GREEN else AnsiColor.RED // Green or Red
-            println("\n${AnsiColor.BOLD}${summary.monthYear}:${AnsiColor.RESET}") // Bold month name
-            println("  ${AnsiColor.BLUE}Total Income:${AnsiColor.RESET}m $${summary.totalIncome}")
-            println("  ${AnsiColor.BLUE}Total Expenses:${AnsiColor.RESET} $${summary.totalExpense}")
-            println("  ${balanceColor}Net Balance:${AnsiColor.RESET} $${"%.2f".format(netBalance)}")
+            val balanceColor = if (netBalance >= 0) ConsoleColors.GREEN else ConsoleColors.RED // Green or Red
+            println("\n${ConsoleStyle.BOLD}${summary.monthYear}:${ConsoleColors.RESET}") // Bold month name
+            println("  ${ConsoleColors.BLUE}Total Income:${ConsoleColors.RESET}m $${summary.totalIncome}")
+            println("  ${ConsoleColors.BLUE}Total Expenses:${ConsoleColors.RESET} $${summary.totalExpense}")
+            println("  ${balanceColor}Net Balance:${ConsoleColors.RESET} $${"%.2f".format(netBalance)}")
         }
     }
 
@@ -102,8 +103,8 @@ class ConsoleManager(
 
     private fun printAllTransactions(transactions: List<Transaction>) {
         val maxCategoryLength = transactions.maxOf { it.category.length }
-        println("${AnsiColor.BOLD}${AnsiColor.UNDERLINED}All transactions:${AnsiColor.RESET} \n") // Bold + Underlined
-        println("${AnsiColor.BOLD}+--------+-----------------+${"".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+")
+        println("${ConsoleStyle.BOLD}${ConsoleStyle.UNDERLINED}All transactions:${ConsoleColors.RESET} \n") // Bold + Underlined
+        println("${ConsoleStyle.BOLD}+--------+-----------------+${"".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+")
         println("| ID     | Amount          | ${"Category".padEnd(maxOf(28, maxCategoryLength), ' ')} | Type      |   Date(dd/mm/yyyy)      |")
         println("+--------+-----------------+${"".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+")
         transactions.forEach { transaction ->
@@ -115,7 +116,7 @@ class ConsoleManager(
                 } |  ${dateString.padEnd(22)} |"
             )
         }
-        println("+--------+-----------------+${"-".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+${AnsiColor.RESET}")
+        println("+--------+-----------------+${"-".padEnd(maxOf(30, maxCategoryLength + 2), '-')}+-----------+-------------------------+${ConsoleColors.RESET}")
     }
 
     private fun isValidTransactionDate(date: String): Boolean {
@@ -157,7 +158,7 @@ class ConsoleManager(
         val transactionToEdit = transactions.find { it.id == transactionId }
 
         if (transactionToEdit == null) {
-            println("${AnsiColor.RED}Transaction not found!${AnsiColor.RESET}")
+            println("${ConsoleColors.RED}Transaction not found!${ConsoleColors.RESET}")
             return
         }
 
@@ -170,10 +171,10 @@ class ConsoleManager(
         // Call the edit function from your TransactionManager (make sure it's implemented)
         val errors = manager.editTransaction(updatedTransaction)
         if (errors.isNotEmpty()) {
-            println("${AnsiColor.RED}Errors editing transaction:${AnsiColor.RESET}")
+            println("${ConsoleColors.RED}Errors editing transaction:${ConsoleColors.RESET}")
             errors.forEach { println("- $it") }
         } else {
-            println("${AnsiColor.GREEN}Transaction updated successfully!${AnsiColor.RESET}")
+            println("${ConsoleColors.GREEN}Transaction updated successfully!${ConsoleColors.RESET}")
         }
     }
 

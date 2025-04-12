@@ -1,11 +1,11 @@
-import main.java.SummaryGenerator
+import main.java.TransactionSummaryGenerator
 import model.MonthlySummary
 import model.Transaction
 import storage.TransactionStorage
 
 class TransactionManager(
     private val storage: TransactionStorage,
-    private val summaryGenerator: SummaryGenerator
+    private val transactionSummaryGenerator: TransactionSummaryGenerator
 ) {
     fun addTransaction(transaction: Transaction): List<String> {
         val errors = transaction.validateTransaction()
@@ -34,6 +34,6 @@ class TransactionManager(
 
     fun getMonthlySummary(): List<MonthlySummary> {
         val transactions = getAllTransactions()
-        return summaryGenerator.generateMonthlySummaries(transactions)
+        return transactionSummaryGenerator.generateMonthlySummaries(transactions)
     }
 }
