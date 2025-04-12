@@ -1,5 +1,6 @@
 package main.java
 
+import main.java.utils.format
 import model.MonthlySummary
 import model.Transaction
 import model.TransactionType
@@ -8,7 +9,7 @@ import java.time.format.DateTimeFormatter
 class TransactionSummaryGenerator {
     fun generateMonthlySummaries(transactions: List<Transaction>): List<MonthlySummary> {
         val grouped = transactions.groupBy {
-            it.date.format(DateTimeFormatter.ofPattern("MM-yyyy"))
+            it.date.format("MM-yyyy")
         }
         val summaries = grouped.map { (monthYear, transactions) ->
             val totalIncome = transactions

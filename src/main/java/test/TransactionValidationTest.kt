@@ -1,10 +1,10 @@
 package test
 
+import kotlinx.datetime.LocalDate
 import main.java.utils.check
 import model.Transaction
 import model.TransactionType
 import model.TransactionValidationErrors
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -20,7 +20,7 @@ fun main() {
             amount = 5000.0,
             type = TransactionType.INCOME,
             category = "Food",
-            date = LocalDate.now()
+            date = LocalDate(2024, 12, 12)
 
         ).validateTransaction(),
         expectedResult = listOf()
@@ -32,7 +32,7 @@ fun main() {
             amount = 5000.0,
             type = null,
             category = "Food",
-            date = LocalDate.now()
+            date = LocalDate(2024, 12, 12)
 
         ).validateTransaction(),
         expectedResult = listOf(TransactionValidationErrors.INVALID_TYPE.message)
@@ -45,7 +45,7 @@ fun main() {
             amount = 0.0,
             type = TransactionType.INCOME,
             category = "Food",
-            date = LocalDate.now()
+            date = LocalDate(2024, 12, 12)
         ).validateTransaction(),
         expectedResult = listOf(TransactionValidationErrors.INVALID_AMOUNT_RANGE.message)
     )
@@ -57,7 +57,7 @@ fun main() {
             amount = ("").toDoubleOrNull(),
             type = TransactionType.INCOME,
             category = "Food",
-            date = LocalDate.now()
+            date = LocalDate(2024, 12, 12)
 
         ).validateTransaction(),
         expectedResult = listOf(TransactionValidationErrors.INVALID_AMOUNT_NOT_NUMBER.message)
@@ -70,7 +70,7 @@ fun main() {
             amount = 5000.0,
             type = TransactionType.INCOME,
             category = "",
-            date = LocalDate.now()
+            date = LocalDate(2024, 12, 12)
         ).validateTransaction(),
         expectedResult = listOf(TransactionValidationErrors.INVALID_CATEGORY.message)
     )
@@ -82,7 +82,7 @@ fun main() {
             amount = 5000.0,
             type = TransactionType.INCOME,
             category = "       ",
-            date = LocalDate.now()
+            date = LocalDate(2024, 12, 12)
         ).validateTransaction(),
         expectedResult = listOf(TransactionValidationErrors.INVALID_CATEGORY.message)
     )
